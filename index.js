@@ -1,4 +1,5 @@
 const express = require("express");
+const Datastore = require("nedb");
 const app = express();
 app.listen(3000, () => console.log("Listening at 3000"));
 app.use(express.static("public"));
@@ -7,13 +8,22 @@ app.use(
     limit: "1MB",
   })
 );
-app.post("/api", (request, response) => {
-  console.log(request.body);
-  const data = request.body;
 
-  response.json({
-    status: "success",
-    latitude: data.lat,
-    longitude: data.lon,
+const database = new Datastore("database.db");
+database.loadDatabase();
+app.post("/api", (request, response) => {
+  const data = request.body;
+  data.timestamp = Date.now();
+  database.insert(data);
+  response.json({ data });
+});
+
+app.get("/api", (request, response) => {
+  database.find({}, (error, data) => {
+    if (error) {
+      response.end();
+      return;
+    }
+    response.json(data);
   });
 });

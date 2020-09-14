@@ -1,11 +1,11 @@
 if ("geolocation" in navigator) {
   console.log("geo location available");
   navigator.geolocation.getCurrentPosition((position) => {
-    const lat = position.coords.latitude;
-    const lon = position.coords.longitude;
-    data = { lat, lon };
-    renderDOM(lat, lon);
-    initMap(lat, lon);
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    data = { latitude, longitude };
+    renderDOM(latitude, longitude);
+    initMap(latitude, longitude);
     postToServer(data);
   });
 } else {
