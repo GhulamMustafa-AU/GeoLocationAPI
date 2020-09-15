@@ -22,13 +22,19 @@
     <title>Geo Location API</title>
   </head>
   <body>
-    <h2>Geo Location API | All the data</h2>
+    <h2>Geo Location API | All the location data</h2>
     <script>
-      const div = document.createElement("div");
+      const parent = document.querySelector("body");
       async function getAllData() {
         const response = await fetch("/api");
         const data = await response.json();
-        /* to be continued */
+        data.forEach((item) => {
+          parent
+            .appendChild(document.createElement("div"))
+            .appendChild(
+              document.createElement("p")
+            ).textContent = JSON.stringify(item);
+        });
       }
       getAllData();
     </script>
